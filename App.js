@@ -10,16 +10,19 @@ import {
   FlatList,
   TextInput,
   ActivityIndicator,
-  Linking
+  Linking,
+  Button,
 } from 'react-native';
 
 const App = () => {
+  const [username, setUsername] = React.useState('');
   const [data, setData] = React.useState(null);
   const [newData, setNewData] = React.useState(data);
   const [text, onChangeText] = React.useState('');
 
-  const url = 'https://api.github.com/users/f-chilmi/repos';
-  React.useEffect(() => {
+  const url = `https://api.github.com/users/${username}/repos`;
+
+  const fetchData = () => {
     fetch(url)
       .then(res => {
         if (res.status === 200) {
@@ -30,7 +33,7 @@ const App = () => {
         setData(resJson);
         setNewData(resJson);
       });
-  }, []);
+  };
 
   React.useEffect(() => {
     if (data !== null) {
@@ -41,14 +44,31 @@ const App = () => {
 
   console.log('data', data);
 
+  const FirstPage = () => {
+    return (
+      <View style={styles.container}>
+        <TextInput
+          onChangeText={setUsername}
+          style={styles.inputUsername}
+          value={username}
+          placeholder={'Input username github here'}
+          autoFocus={true}
+        />
+        <Button title="Submit" onPress={fetchData} style={styles.button} />
+      </View>
+    );
+  };
+
   const renderItem = ({item}) => (
-    <TouchableOpacity style={styles.item} onPress={() => handleClick(item.html_url)}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => handleClick(item.html_url)}>
       <Text style={styles.title}>{item.name}</Text>
     </TouchableOpacity>
   );
 
   if (data === null) {
-    return <ActivityIndicator size="large" />;
+    return <FirstPage />;
   }
 
   const handleClick = uri => {
@@ -99,6 +119,18 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
+  },
+  inputUsername: {
+    borderRadius: 50,
+    paddingHorizontal: 15,
+    height: 40,
+    marginTop: '50%',
+    marginBottom: '5%',
+    borderWidth: 1,
+  },
+  button: {
+    width: 100,
+    borderRadius: 10,
   },
 });
 
