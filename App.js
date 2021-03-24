@@ -40,8 +40,6 @@ const App = () => {
     }
   }, [text]);
 
-  console.log('data', data);
-
   const FirstPage = () => {
     return (
       <View style={styles.container}>
