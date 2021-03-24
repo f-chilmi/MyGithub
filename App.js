@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -9,7 +8,6 @@ import {
   View,
   FlatList,
   TextInput,
-  ActivityIndicator,
   Linking,
   Button,
 } from 'react-native';
